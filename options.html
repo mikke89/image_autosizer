@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Image Autosizer Options</title>
+  <link rel="shortcut icon" href="img/icon.png">
+  <link rel="stylesheet" href="options.css">
+  </style>
+  <script src="options.js"></script>
+</head>
+
+<body>
+  <canvas id="facey" style="position:absolute;left:100px;bottom:150px;" width="150" height="150"></canvas>
+
+  <div class="headline">
+    <span class="title">Image Autosizer</span> <span class="author">by k-mouse</span>
+  </div>
+
+  <div class="help_float" id="help_float" style="display:none"></div>
+  <div id="transparency" style="display:none"></div>
+  <div class="table">
+    <div class="cell quickguide">
+      <div class="box">
+        <h1>Quick guide</h1>
+        <p>Open up an image file to use this extension. Try it on <a
+            href="http://en.wikipedia.org/wiki/Wikipedia:Picture_of_the_day">Wikipedia: Picture of the Day</a> (click
+          the image twice to open the image file).</p>
+        <ul class="guide">
+          <li>The picture should be resized to fit your browser window</li>
+          <li>You can click on the picture to view it in its original size, and drag it around with your mouse</li>
+          <li>Double-click the picture to view it in fill mode</li>
+          <li>Press F11 to view the picture in full screen, looks especially good with black background</li>
+          <li>Press <em>c</em> to temporarily change background color</li>
+        </ul>
+        <p>Press <em>shift+c</em> to temporarily enable checkerboard background.</p>
+      </div>
+    </div>
+
+    <div class="cell prefs">
+      <div class="box">
+        <h1>Preferences</h1>
+
+        <div>
+          <fieldset>
+            <div class="help help_large help_beneath">
+              <p>Select a new image background color according to your taste.</p>
+            </div>
+            <legend>Background color</legend>
+            <ul class="prefs">
+              <li><input type="radio" name="background_color" value="default" id="default"><label for="default">Browser
+                  default (white)</label></li>
+              <li style="display:none"><input type="radio" name="background_color" value="transparent"
+                  id="transparent"><label for="transparent">Transparent</label></li>
+              <li>
+                <input type="radio" name="background_color" value="custom" id="custom" style=""><label
+                  for="custom">Custom</label>
+                <input type="color" id="custom_color" value="#000000"
+                  style="margin-left:.5em;margin-bottom:.3em;width:3em;"><br>
+              </li>
+            </ul>
+          </fieldset>
+          <fieldset>
+            <legend>Inertial panning</legend>
+            <ul class="prefs">
+              <div class="help">
+                <p>Enabling <strong>Inertial panning</strong> will make the image continue sliding for a little while
+                  after letting go of the mouse button. Also known as smooth scrolling.</p>
+              </div>
+              <li><input type="checkbox" name="inertial_panning" value="inertial_panning" id="inertial_panning"><label
+                  for="inertial_panning">Enable inertial panning</label></li>
+
+              <div class="help">
+                <p><strong>Inertial speed</strong> is the speed at which the window will scroll after letting go of the
+                  mouse button.</p>
+              </div>
+              <li><input type="range" value="1.0" step="0.1" min="0.1" max="3.0" name="inertial_speed"
+                  id="inertial_speed"><label for="inertial_speed">Speed</label></li>
+
+              <div class="help">
+                <p>Inertial <strong>deceleration</strong> determines how fast the panning comes to a stop after letting
+                  go of the mouse button.</p>
+              </div>
+              <li><input type="range" value="1.0" step="0.1" min="0.1" max="3.0" name="inertial_deceleration"
+                  id="inertial_deceleration"><label for="inertial_deceleration">Deceleration</label></li>
+
+              <div class="help">
+                <p>Only the panning events for the last milliseconds before letting go of the mouse button is used for
+                  the inertial speed calculations. The number of milliseconds is given by <strong>recording
+                    time</strong>.</p>
+              </div>
+              <li><input type="range" value="50" step="10" min="10" max="250" name="inertial_recording_time"
+                  id="inertial_recording_time"><label for="inertial_recording_time">Recording time</label></li>
+            </ul>
+          </fieldset>
+          <fieldset>
+            <legend>Miscellaneous</legend>
+            <ul class="prefs">
+              <div class="help">
+                <p><strong>Show image info text</strong> pops up a small caption in the bottom right corner of the image
+                  with information about the image resolution and the current view mode.</p>
+              </div>
+              <li><input type="checkbox" name="show_image_info" value="show_image_info" id="show_image_info"><label
+                  for="show_image_info">Show image info text</label></li>
+
+              <div class="help">
+                <p><strong>Duration</strong> specifies how long the <em>image info text</em> stays visible.</p>
+              </div>
+              <li><input type="range" value="5.0" step="0.5" min="0.5" max="15.5" name="image_info_duration"
+                  id="image_info_duration"><label for="image_info_duration">Duration</label></li>
+
+              <div class="help">
+                <p><strong>Close image on long press</strong>. Holding your left mouse button down for more than a
+                  second will close the page with the image.</p>
+              </div>
+              <li><input type="checkbox" name="close_on_long_press" value="close_on_long_press"
+                  id="close_on_long_press"><label for="close_on_long_press">Close image on long press</label></li>
+
+              <div class="help">
+                <p><strong>Always use pointer cursor</strong> will prevent the zoom-in and zoom-out cursors from showing
+                  up which can be unintuitive when extra display modes are enabled.</p>
+              </div>
+              <li><input type="checkbox" name="cursor_always_pointer" value="cursor_always_pointer"
+                  id="cursor_always_pointer"><label for="cursor_always_pointer">Always use pointer cursor</label></li>
+
+              <div class="help">
+                <p><strong>Checkerboard background for transparency</strong> will display a checkerboard behind the
+                  image such that transparency will be easily identifiable.</p>
+              </div>
+              <li><input type="checkbox" name="checkerboard_background" value="checkerboard_background"
+                  id="checkerboard_background"><label for="checkerboard_background">Checkerboard background for
+                  transparency</label></li>
+            </ul>
+          </fieldset>
+
+          <fieldset>
+            <div class="help help_large">
+              <p>Display modes control how the image is displayed and fitted to the window.</p>
+              <p><strong>Enabled modes</strong> will be cycled through when left-clicking on the image.</p>
+              <p><strong>Default mode</strong> is the first mode the image will enter when opening up.</p>
+              <p>The selected <strong>Double-click</strong> mode will be activated when double-clicking on the image.
+                This mode can be a disabled mode.</p>
+            </div>
+            <legend>Display modes</legend>
+            <table style="width:100%">
+              <col align="center" />
+              <col align="center" />
+              <col style="width:100%" />
+              <tr>
+                <th colspan="3">When image is larger than window</th>
+              </tr>
+              <tr class="thin">
+                <th>Default</th>
+                <th>Doubleclick</th>
+                <th align="left">Enable mode</th>
+              </tr>
+              <tr>
+                <td><input type="radio" name="mode_def" value="1" id="mode_def1"></td>
+                <td><input type="radio" name="mode_dbl" value="1" id="mode_dbl1"></td>
+                <td><input type="checkbox" name="mode1" value="true" id="mode1">
+                  <label for="mode1">Fit to window</label>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="radio" name="mode_def" value="2" id="mode_def2"></td>
+                <td><input type="radio" name="mode_dbl" value="2" id="mode_dbl2"></td>
+                <td><input type="checkbox" name="mode2" value="true" id="mode2">
+                  <label for="mode2">Fill window</label>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="radio" name="mode_def" value="3" id="mode_def3"></td>
+                <td><input type="radio" name="mode_dbl" value="3" id="mode_dbl3"></td>
+                <td><input type="checkbox" name="mode3" value="true" id="mode3">
+                  <label for="mode3">Fit to width</label>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="radio" name="mode_def" value="4" id="mode_def4"></td>
+                <td><input type="radio" name="mode_dbl" value="4" id="mode_dbl4"></td>
+                <td><input type="checkbox" name="mode4" value="true" id="mode4">
+                  <label for="mode4">Fit to height</label>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="radio" name="mode_def" value="5" id="mode_def5"></td>
+                <td><input type="radio" name="mode_dbl" value="5" id="mode_dbl5"></td>
+                <td><input type="checkbox" name="mode5" value="true" id="mode5">
+                  <label for="mode5">Original</label>
+                </td>
+              </tr>
+              <tr class="special">
+                <td></td>
+                <td><input type="radio" name="mode_dbl" value="0" id="mode_dbl0"></td>
+                <td><label for="mode_dbl0">Disable double-click</label></td>
+              </tr>
+              <tr>
+                <th colspan="3">When image is smaller than window</th>
+              </tr>
+              <tr>
+                <td><input type="radio" name="mode_def_image_smaller" value="1" id="mode_def_image_smaller1"></td>
+                <td></td>
+                <td><input type="checkbox" name="mode_image_smaller1" value="true" id="mode_image_smaller1">
+                  <label for="mode_image_smaller1">Original</label>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="radio" name="mode_def_image_smaller" value="2" id="mode_def_image_smaller2"></td>
+                <td></td>
+                <td><input type="checkbox" name="mode_image_smaller2" value="true" id="mode_image_smaller2">
+                  <label for="mode_image_smaller2">Maximize</label>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+          <button style="margin-left:1em;" id="btn_save">Save changes</button>
+          <button style="margin-right:1em;float:right" id="btn_revert">Revert to default</button>
+          <div id="saved" style="background-color:#cfc;display:none;">Settings succesfully saved.</div>
+          <div id="reverted" style="background-color:#cfc;display:none;">Settings reverted to default values.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

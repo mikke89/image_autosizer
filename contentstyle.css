@@ -1,0 +1,90 @@
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+html {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+img {
+    display: block;
+    margin: 0 auto;
+    cursor: inherit !important;
+    background-color: inherit;
+}
+body {
+    margin: 0;
+    padding: 0 !important;
+    background: none !important;
+    display: table-cell;
+    vertical-align: middle;
+}
+body.contain {
+    position: absolute;
+    margin: 0;
+    top: 0;left: 0;bottom: 0;right: 0;
+}
+
+body.contain > img {
+    margin: auto;
+    height: 100%;
+    width: auto;
+}
+body.contain.wider > img {
+    width: 100%;
+    height: auto;
+}
+body.maximize.wider > img { width: 100%; }
+body.maximize.taller > img { height: 100%; }
+
+body.fill {
+    margin: 0;
+    top: 0;left: 0;bottom: 0;right: 0;
+}
+body.fill > img {
+    margin-left: auto;
+    margin-right: auto;
+    /*-o-object-fit: contain;*/
+}
+
+body.fill.height.taller.bothsides > img,
+body.fill.height.wider.bothsides > img { height: 100%; }
+
+body.fill.width.taller.bothsides > img,
+body.fill.width.wider.bothsides > img /* fix margin-top */ { width: 100%; }
+
+body.fill.auto.taller.bothsides > img { width: 100%; }
+body.fill.auto.wider.bothsides > img { height: 100%; }
+
+body.fill.height.wider.oneside > img /* fix margin-top */ {  }
+body.fill.auto.wider.oneside > img /* fix margin-top */ {  }
+body.fill.width.wider.oneside > img /* fix margin-top */ { width: 100% }
+
+body.fill.height.taller.oneside > img { height: 100%; }
+body.fill.auto.taller.oneside > img  {  }
+body.fill.width.taller.oneside > img { }
+
+body.fill.auto.bothsides,
+body.fill.height.taller,
+body.fill.height.wider.bothsides  { position:absolute; }
+
+html.checkerboard > body, img.checkerboard {
+    background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGElEQVQYV2N4DwX/oYBhgARgDJjEAAkAAEC99wFuu0VFAAAAAElFTkSuQmCC) repeat !important;
+}
+
+div.statusText {
+    position: fixed;
+    display: none;
+    background-color: #eef;
+    border-top: 1px solid #aac;
+    border-left: 1px solid #aac;
+    border-top-left-radius: 5px;
+    font-family: sans-serif;
+    font-size: 9pt;
+    color: #445;
+    padding: 2px 5px;
+    bottom:0;
+    right:0
+}

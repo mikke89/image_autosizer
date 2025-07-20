@@ -1,0 +1,126 @@
+Changelog
+
+v3.5 (WIP):
+- Added License file (MIT)
+
+v3.4 (2017-02-03):
+- Fixed issue with small image not being centered
+
+
+v3.3 (2017-01-09):
+- Customizable display duration of info text box
+
+
+v3.2 (2015-09-20): 
+- Background color is now applied faster
+
+
+
+v3.1 (2015-04-22):
+- File size added to image info label
+- 'Fit to width/height' mode renamed to 'Fill window'
+
+
+v3.0 (2013-06-27):
+- Support for Opera 15! (Beta)
+- More customization options for inertial panning: Speed, deceleration, and recording time.
+- Optional image info label
+
+Support for Opera 15 required some larger changes to the code and may have introduced some
+bugs. The behavior of the extension may have changed because of Opera's new engine.
+
+Known bugs:
+- The extension won't activate before the image is completely loaded
+- Transparent background color does not work (seems to have been removed as a browser feature)
+- The color picker in preferences does not work (browser bug)
+
+
+
+v2.1 (2012-05-10):
+- Added support for Opera 12
+- Added ability to enable and disable "image is smaller than window"-modes
+- Renamed "Mouse compatibility mode" to "Jumpy movement prevention"
+- Enabled "Jumpy movement prevention" by default
+- "Fit to width/height"-mode now has a zoom-in cursor by default
+
+
+
+v2.0 (2011-10-16):
+- Added option for transparent background
+- Added ability to pan image from entire window
+- Improved inertial panning, should be somewhat smoother
+- Added keyboard shortcut Shift+C to temporarily view checkerboard background
+- Added an option to close page on long press
+- Using more CSS instead of javascript to position the image
+- Added a button to revert all settings to default
+- Smoothed up the looks of the preferences page
+- Fixed a bug where the shortcut 'c' wouldn't work
+
+
+
+v1.9 (2011-05-03):
+- More user-friendly preferences page (and some funky colors)
+- Some bug-fixes for bugs introduced with Opera 11.10
+
+
+
+v1.8 (2011-02-21):
+New features:
+- Support for Opera 11.10 snapshot
+- Customize which display modes to cycle through
+- Selectable default mode
+- Double-click can trigger any mode
+- Current mode added to the status bar
+- Option that fixes panning issues for some mice
+- Zoom-in/out cursor (only supported in Opera 11.10)(optional)
+
+
+
+v1.7 (2011-02-01):
+- Added picture resolution and zoom level to the status bar
+
+
+
+v1.6 (2011-01-26):
+New feature:
+- Press 'c' to temporarily change background color (will change between black, white, and your custom color if set).
+
+Changes:
+- Inertial panning has a slower deceleration (will scroll longer)
+- Cursor changes to "move"-arrow when panning
+
+
+
+v1.5 (2011-01-07):
+New features:
+- Inertial panning (release mouse while dragging and image will keep moving for a short time) (optional)
+- Support for Gmail attachments
+- Checkerboard background for transparent images (optional, off by default)
+
+Bug fixes:
+- Panning now only responds to left mouse button
+- Mode can now be changed while image is loading
+- Fixed a bug where image would not vertically center
+
+
+
+v1.4 (2011-11-25):
+ - Changed behavior so large images are resized before they are completely loaded.
+
+
+
+v1.3 (2011-11-23):
+ - "Fit to shortest axis" is now toggled by double-click by default. Can be changed in preferences.
+ - Added a quick guide to the extension in the preferences
+
+
+v1.2 (2011-11-19):
+ - Choose a different background-color from the extensions preferences page
+
+
+v1.1 (2011-11-18):
+ - Hold shift while clicking a large image to resize it by shortest axis, so only one scroll-bar is visible.
+
+
+v1.0 (2011-10-27):
+Initial release

@@ -1,0 +1,193 @@
+html {
+	background-color: #fff;
+}
+body {
+	font-family: "trebuchet ms",sans-serif;
+	font-size: 0.9em;
+	background-image: linear-gradient(top, #dfe6ed, #fff);
+	background-image: -o-linear-gradient(top, #dfe6ed, #fff);
+	background-image: -webkit-linear-gradient(top, #dfe6ed, #fff);
+	margin: 0;
+
+}
+a {
+	color: #285fb3;
+	text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+h1 {
+	color: #636363;
+	font-size: 1.5em;
+	padding-left:42px;
+	background: url('img/preferences.png') no-repeat center left;
+	line-height:2em;
+
+}
+.quickguide h1 {
+	background: url('img/quick_guide.png') no-repeat center left;
+	padding-left: 28px;
+}
+div.table {
+	display:table;
+	margin:0 auto;
+	border-spacing: 30px;
+	max-width:900px;
+
+}
+div.cell { display:table-cell;vertical-align:middle; }
+div.box {
+	/*background-color: rgba(255,255,255,0.7);*/
+	background-color: rgb(239,249,254);
+	background-color:#fff;
+	background-image: linear-gradient(top, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.1) 100%);
+	background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.1) 100%);
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.1) 100%);
+	padding: 1em 2.5em;
+	border-radius: 5px;
+	border-radius:0;
+	position:relative;
+
+	box-shadow:
+					-1px 0 1px rgba(0, 0, 0, 0.3),
+					1px 0 1px rgba(0, 0, 0, 0.3),
+					0 0 15px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+}
+div.prefs {width:55%; }
+ul.prefs {
+	margin-top:.6em;
+	list-style-type:none;
+	padding-left:0.5em;
+}
+ul.prefs li { margin: 0.3em 0; }
+ul.guide { padding-left: 1.5em }
+fieldset { border: none; }
+label { margin-left: .4em; }
+legend {
+	font-size:medium;
+	border-bottom: 1px dotted #aaa;
+	float: left;
+	margin-bottom: .5em;
+}
+legend+* {
+	clear:both;
+}
+#saved, #reverted{
+	padding:1em;
+	border-radius: 5px;
+}
+table {
+	margin-top:1em;
+	border-spacing:0px;
+}
+table th {
+	background-color: #dfe6ed;
+	padding: 0.7em 0.5em;
+
+}
+table tr:nth-child(1) th {
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+table tr:nth-child(n+3) th {
+/*
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;*/
+}
+
+table tr.thin th {
+	padding: 0.2em 0.5em;
+	background-color: #fff;
+	border: 1px dotted #ccc;
+	border-top: none;
+	font-weight:normal;
+}
+table td {
+	padding: 0.3em 0.5em;
+}
+table td:first-child { border-left: 1px dotted #ccc; }
+table td:last-child { border-right: 1px dotted #ccc; }
+table tr:last-child td{border-bottom: 1px dotted #ccc;}
+table tr:last-child td:first-child {border-bottom-left-radius: 8px;}
+table tr:last-child td:last-child { border-bottom-right-radius: 8px;}
+div.help {
+	float:right;
+	width:16px;
+	height:16px;
+	background: url('img/help_16.png') no-repeat 50% 50%;
+	cursor:help;
+}
+div.help * { display: none }
+div.help_large { width:22px; height:22px; background: url('img/help_22.png') no-repeat 50% 50%; }
+div.help_float {
+	position: absolute;
+	box-shadow: 0 0 15px 1px #888;
+	top:20%;
+	left:30%;
+	border: 2px solid #555;
+	border-radius: 5px;
+	padding: 0.8em 1.5em;
+	background-color: #fff;
+	width:330px;
+	z-index: 100;
+}
+div#transparency {
+	position: fixed;
+	left:0; top:0;
+	width:100%;
+	height:100%;
+	z-index: 50;
+	background-color: #000;
+	opacity: 0.25;
+	cursor:help;
+}
+
+div.headline {
+	position: fixed;
+	top:50px; left: 0;
+	height: 70px;
+	padding-left: 100px;
+	background: url('img/icon_64.png') no-repeat 20px 50%, -webkit-linear-gradient(left, rgba(255,255,255,.75) 0%,rgba(255,255,255,0) 100%);
+}
+
+div.headline span.title {
+	text-shadow:1px 1px 2px rgba(92, 114, 138, 1);
+	font-weight:normal;
+	color:#A0B5C3;
+	letter-spacing:-1pt;
+	word-spacing:-2pt;
+	font-size:50px;
+	text-align:left;
+	font-family:palatino linotype, palatino, serif;
+	line-height: 65px;
+}
+div.headline span.author {
+	margin-left: .8em;
+	color:#737A7F;
+}
+
+input[type="range"]+label { vertical-align: top; }
+
+
+button {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background-color:#e7eef0;
+	border-radius:6px;
+	border:1px solid #9db7c7;
+	display:inline-block;
+	color:#555555;
+	font-family:Trebuchet MS;
+	font-size:14px;
+	font-weight:normal;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+	cursor: pointer;
+	margin-bottom:1em;
+	margin-top:1em;
+}button:hover {
+	background-color:#e5f2ff;
+}button:active {
+	position:relative;
+	top:1px;
+}
