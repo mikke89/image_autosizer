@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }, false);
             body.addEventListener('mousedown', function (ev) {
-                if (modes[state][mode].pan && ev.which == 1) {
+                if (modes[state][mode].pan && ev.button === 0) {
                     pan = true;
                     clearTimeout(inertial_timer);
                     startX = ev.screenX;
@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var t = date.getTime();
                     inertial_last_times = [t];
                 }
-                if (prefs['close_on_long_press'] && ev.which == 1) {
+                if (prefs['close_on_long_press'] && ev.button === 0) {
                     closePageTimer = setTimeout(function () { chrome.runtime.sendMessage({ closeTab: true }); }, 1000);
                 }
                 cancel_click = false;
@@ -386,8 +386,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         inertial_lastY.unshift(ev.screenY);
                     }
                     window.scrollTo(startX + startScrollX - ev.screenX, startY + startScrollY - ev.screenY);
-                } else if (pan) {
-
+                }
+                if (closePageTimer) {
+                    clearTimeout(closePageTimer);
                 }
                 cancel_click = true;
             }, false);
