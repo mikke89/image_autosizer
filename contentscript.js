@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var ViewModes = {
                 FIT_TO_WINDOW: 1,
-                FILL_WINDOW: 2,
+                COVER_WINDOW: 2,
                 FIT_TO_WIDTH: 3,
                 FIT_TO_HEIGHT: 4,
                 ORIGINAL: 5
@@ -167,31 +167,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 gt: {
                     [ViewModes.FIT_TO_WINDOW]: {
                         title: 'Fit to window',
-                        body_class: 'contain',
+                        body_class: 'fit-window',
                         cursor: 'zoom-in',
                         pan: false
                     },
-                    [ViewModes.FILL_WINDOW]: {
-                        title: 'Fill window',
-                        body_class: 'fill auto',
+                    [ViewModes.COVER_WINDOW]: {
+                        title: 'Cover window',
+                        body_class: 'cover-window',
                         cursor: 'zoom-in',
                         pan: true
                     },
                     [ViewModes.FIT_TO_WIDTH]: {
                         title: 'Fit to width',
-                        body_class: 'fill width',
+                        body_class: 'fit-width',
                         cursor: 'pointer',
                         pan: true
                     },
                     [ViewModes.FIT_TO_HEIGHT]: {
                         title: 'Fit to height',
-                        body_class: 'fill height',
+                        body_class: 'fit-height',
                         cursor: 'pointer',
                         pan: true
                     },
                     [ViewModes.ORIGINAL]: {
                         title: 'Original',
-                        body_class: 'zoom',
+                        body_class: 'original',
                         cursor: 'zoom-out',
                         pan: true
                     }
@@ -199,13 +199,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 st: {
                     [SmallImageModes.ORIGINAL]: {
                         title: 'Original',
-                        body_class: '',
+                        body_class: 'small-original',
                         cursor: (prefs['all_image_smaller_modes_enabled'] ? 'zoom-in' : 'default'),
                         pan: false
                     },
                     [SmallImageModes.MAXIMIZE]: {
                         title: 'Maximize',
-                        body_class: 'maximize',
+                        body_class: 'small-maximize',
                         cursor: (prefs['all_image_smaller_modes_enabled'] ? 'zoom-out' : 'default'),
                         pan: false
                     }
@@ -269,11 +269,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!init_timer) state = (image_gt_window() ? 'gt' : 'st');
                 body.className = modes[state][mode].body_class + (aspect_ratio_window_gt_image() ? ' taller' : ' wider') + (image_gt_window_both_axes() ? ' bothsides' : ' oneside');
                 body.style.cursor = cursor;
-                img.style.marginTop = '0';
-
-                if (state == 'gt' && mode == ViewModes.FIT_TO_WINDOW && !aspect_ratio_window_gt_image()) {
-                    img.style.marginTop = Math.floor(body.clientHeight / 2 - window.innerWidth / image_aspect_ratio() / 2) + 'px';
-                }
                 change_status_text();
             }
             function go_to_mode(old_mode, pageX, pageY) {

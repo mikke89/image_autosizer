@@ -10,27 +10,56 @@ html {
 }
 img {
     display: block;
-    margin: 0 auto;
+    margin: 0;
     cursor: inherit !important;
-    background-color: inherit;
+    object-fit: scale-down;
 }
 body {
     margin: 0;
     padding: 0 !important;
     background: none !important;
-    display: table-cell;
-    vertical-align: middle;
-}
-body.contain {
+    display: block;
     position: absolute;
-    margin: 0;
-    top: 0;left: 0;bottom: 0;right: 0;
+    inset: 0;
+    overflow: auto;
 }
 
-body.contain > img {
-    margin: auto;
+body.fit-window > img {
+    width: 100%;
     height: 100%;
+}
+body.cover-window.wider > img {
+    width: 100%;
+    height: auto;
+}
+body.cover-window.taller > img {
     width: auto;
+    height: 100%;
+}
+body.fit-width > img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+}
+body.fit-height > img {
+    width: auto;
+    height: auto;
+    max-height: 100%;
+}
+body.original > img {
+    width: auto;
+    height: auto;
+}
+
+body.small-original > img {
+    width: 100%;
+    height: 100%;
+}
+
+body.small-maximize > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 body.contain.wider > img {
     width: 100%;
@@ -38,37 +67,6 @@ body.contain.wider > img {
 }
 body.maximize.wider > img { width: 100%; }
 body.maximize.taller > img { height: 100%; }
-
-body.fill {
-    margin: 0;
-    top: 0;left: 0;bottom: 0;right: 0;
-}
-body.fill > img {
-    margin-left: auto;
-    margin-right: auto;
-    /*-o-object-fit: contain;*/
-}
-
-body.fill.height.taller.bothsides > img,
-body.fill.height.wider.bothsides > img { height: 100%; }
-
-body.fill.width.taller.bothsides > img,
-body.fill.width.wider.bothsides > img /* fix margin-top */ { width: 100%; }
-
-body.fill.auto.taller.bothsides > img { width: 100%; }
-body.fill.auto.wider.bothsides > img { height: 100%; }
-
-body.fill.height.wider.oneside > img /* fix margin-top */ {  }
-body.fill.auto.wider.oneside > img /* fix margin-top */ {  }
-body.fill.width.wider.oneside > img /* fix margin-top */ { width: 100% }
-
-body.fill.height.taller.oneside > img { height: 100%; }
-body.fill.auto.taller.oneside > img  {  }
-body.fill.width.taller.oneside > img { }
-
-body.fill.auto.bothsides,
-body.fill.height.taller,
-body.fill.height.wider.bothsides  { position:absolute; }
 
 html.checkerboard > body, img.checkerboard {
     background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGElEQVQYV2N4DwX/oYBhgARgDJjEAAkAAEC99wFuu0VFAAAAAElFTkSuQmCC) repeat !important;
