@@ -20,4 +20,4 @@ Image Autosizer is a browser extension for customizing how image files are displ
 1. Download or clone this repository.
 2. Open your browser and navigate to `chrome://extensions/` or `opera://extensions/`.
 3. Enable "Developer mode".
-4. Click "Load unpacked" and select the extension folder.
+4. Click "Load unpacked" and select the extension `source` folder.
