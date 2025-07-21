@@ -3,72 +3,55 @@
     -webkit-user-select: none;
     user-select: none;
 }
+
 html {
-    display: table;
     width: 100%;
     height: 100%;
 }
-img {
-    display: block;
-    margin: 0;
-    cursor: inherit !important;
-    object-fit: scale-down;
-}
+
 body {
     margin: 0;
     padding: 0 !important;
     background: none !important;
-    display: block;
-    position: absolute;
-    inset: 0;
-    overflow: auto;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex;
+}
+
+img {
+    margin: auto;
+    cursor: inherit !important;
+    object-fit: contain;
+}
+
+body.small-maximize > img {
+    width: 100%;
+    height: 100%;
 }
 
 body.fit-window > img {
     width: 100%;
     height: 100%;
 }
-body.cover-window.wider > img {
-    width: 100%;
-    height: auto;
-}
-body.cover-window.taller > img {
-    width: auto;
-    height: 100%;
-}
-body.fit-width > img {
-    width: auto;
-    height: auto;
+
+body.cover-window.aspect-taller > img {
     max-width: 100%;
 }
-body.fit-height > img {
-    width: auto;
-    height: auto;
+
+body.cover-window.aspect-wider > img {
     max-height: 100%;
 }
-body.original > img {
-    width: auto;
-    height: auto;
+
+body.fit-width > img {
+    max-width: 100%;
 }
 
-body.small-original > img {
-    width: 100%;
-    height: 100%;
+body.fit-height > img {
+    max-height: 100%;
 }
 
-body.small-maximize > img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-body.contain.wider > img {
-    width: 100%;
-    height: auto;
-}
-body.maximize.wider > img { width: 100%; }
-body.maximize.taller > img { height: 100%; }
-
-html.checkerboard > body, img.checkerboard {
+html.checkerboard > body,
+img.checkerboard {
     background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGElEQVQYV2N4DwX/oYBhgARgDJjEAAkAAEC99wFuu0VFAAAAAElFTkSuQmCC) repeat !important;
 }
 
@@ -83,6 +66,16 @@ div.statusText {
     font-size: 9pt;
     color: #445;
     padding: 2px 5px;
-    bottom:0;
-    right:0
+    bottom: 0;
+    right: 0
+}
+
+div.clicker {
+    display: none;
+    position: fixed;
+    inset: 0;
+}
+
+body.pan > div.clicker {
+    display: block;
 }

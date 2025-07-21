@@ -36,11 +36,16 @@ document.addEventListener('DOMContentLoaded', function () {
         divStatusText.style.display = 'none';
         document.body.appendChild(divStatusText);
 
+        var divClicker = document.createElement("div");
+        divClicker.className = 'clicker';
+        document.body.appendChild(divClicker);
+
         // Get file size
         var xhr = new XMLHttpRequest();
         xhr.open('HEAD', gImgFileSrc, true);
         xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) gImgFileSize = humanFileSize(xhr.getResponseHeader('Content-Length'));
+            if (xhr.readyState == 4 && xhr.status == 200)
+                gImgFileSize = humanFileSize(xhr.getResponseHeader('Content-Length'));
         };
         xhr.send(null);
 
@@ -250,24 +255,23 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             window.addEventListener('focus', change_status_text, false);
 
-            function image_aspect_ratio() {
-                return img.naturalWidth / img.naturalHeight;
-            }
-            function aspect_ratio_window_gt_image() {
-                return window.innerWidth / window.innerHeight > img.naturalWidth / img.naturalHeight;
+            function aspect_ratio_image_gt_window() {
+                return img.naturalWidth / img.naturalHeight > window.innerWidth / window.innerHeight;
             }
             function image_gt_window() {
                 return window.innerHeight < img.naturalHeight || window.innerWidth < img.naturalWidth;
-            }
-            function image_as_displayed_gt_window() {
-                return window.innerHeight >= img.offsetHeight && window.innerWidth >= img.offsetWidth;
             }
             function image_gt_window_both_axes() {
                 return window.innerHeight < img.naturalHeight && window.innerWidth < img.naturalWidth;
             }
             function apply_styles() {
-                if (!init_timer) state = (image_gt_window() ? 'gt' : 'st');
-                body.className = modes[state][mode].body_class + (aspect_ratio_window_gt_image() ? ' taller' : ' wider') + (image_gt_window_both_axes() ? ' bothsides' : ' oneside');
+                if (!init_timer)
+                    state = (image_gt_window() ? 'gt' : 'st');
+                body.className =
+                    modes[state][mode].body_class
+                    + (modes[state][mode].pan ? ' pan' : '')
+                    + (aspect_ratio_image_gt_window() ? ' aspect-wider' : ' aspect-taller')
+                    + (image_gt_window_both_axes() ? ' bothsides' : ' oneside');
                 body.style.cursor = cursor;
                 change_status_text();
             }
@@ -275,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!prefs['cursor_always_pointer']) {
                     cursor = modes[state][mode].cursor;
                 }
-                if (state == 'gt' && (old_mode != mode && mode >= 2)) {
+                if (state == 'gt' && (old_mode != mode && mode != ViewModes.FIT_TO_WINDOW)) {
                     var relative_x = (pageX - img.offsetLeft) / img.offsetWidth;
                     var relative_y = (pageY - img.offsetTop) / img.offsetHeight;
                     var scrollX = window.pageXOffset, scrollY = window.pageYOffset;
@@ -287,17 +291,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
             window.addEventListener('resize', function (ev) {
-                if (typeof this.aspect == 'undefined') {
-                    this.aspect = aspect_ratio_window_gt_image();
-                    this.larger = image_gt_window_both_axes();
-                }
-                var prev_aspect = this.aspect;
-                var prev_larger = this.larger;
                 var prev_state = state;
-                //if ((this.aspect = aspect_ratio_window_gt_image()) != prev_aspect || (this.larger = image_gt_window_both_axes()) != prev_larger || (state = image_gt_window() ? 'gt' : 'st') != prev_state) {
-                //apply_styles();
-                //}
-                if ((state = image_gt_window_both_axes() ? 'gt' : 'st') != prev_state) {
+                state = image_gt_window() ? 'gt' : 'st';
+                if (state != prev_state) {
                     mode = getNextEnabledMode();
                 }
                 apply_styles();
@@ -440,7 +436,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }, false);
             window.ondragstart = function (e) {
-                if (state == 'gt' && mode != 1) e.preventDefault();
+                if (state == 'gt' && mode != ViewModes.FIT_TO_WINDOW)
+                    e.preventDefault();
             };
             String.prototype.compareColor = function () {
                 if (this == 'transparent' || arguments[0] == 'transparent') return false;
