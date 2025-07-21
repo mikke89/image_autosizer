@@ -17,58 +17,57 @@ function load_settings() {
         }
     }, false);
 
-
     bgc();
 
-    // Colors
-    var v = localStorage.getItem('background_color');
-    if (v == 'default') {
-        document.getElementById('default').checked = true;
-    } else if (v == 'transparent') {
-        document.getElementById('transparent').checked = true;
-    } else {
-        document.getElementById('custom').checked = true;
-        document.getElementById('custom_color').value = v;
-    }
+    chrome.storage.local.get(null, function(items) {
+        // Colors
+        var v = items.background_color;
+        if (v == 'default') {
+            document.getElementById('default').checked = true;
+        } else if (v == 'transparent') {
+            document.getElementById('transparent').checked = true;
+        } else {
+            document.getElementById('custom').checked = true;
+            document.getElementById('custom_color').value = v;
+        }
 
+        // Checkboxes
+        var checkbox_names = ['checkerboard_background', 'inertial_panning', 'close_on_long_press', 'cursor_always_pointer', 'show_image_info'];
+        for (i = 0; i < checkbox_names.length; i++) {
+            document.getElementById(checkbox_names[i]).checked = items[checkbox_names[i]] == 'true';
+        }
+        document.getElementById('inertial_panning').onchange();
+        document.getElementById('show_image_info').onchange();
 
-    // Checkboxes
-    var checkbox_names = ['checkerboard_background', 'inertial_panning', 'close_on_long_press', 'cursor_always_pointer', 'show_image_info'];
-    for (i = 0; i < checkbox_names.length; i++) {
-        document.getElementById(checkbox_names[i]).checked = localStorage.getItem(checkbox_names[i]) == 'true';
-    }
-    document.getElementById('inertial_panning').onchange();
-    document.getElementById('show_image_info').onchange();
+        // Inertial panning sliders
+        var slider_names = { 'inertial_recording_time': 50, 'inertial_deceleration': 1.0, 'inertial_speed': 1.0, 'image_info_duration': 5.0 };
+        for (i in slider_names) {
+            var e = document.getElementById(i);
+            var value = items[i];
+            if (isNaN(value)) value = slider_names[i];
+            e.value = value;
+            e.onchange();
+        }
 
-    // Inertial panning sliders
-    var slider_names = { 'inertial_recording_time': 50, 'inertial_deceleration': 1.0, 'inertial_speed': 1.0, 'image_info_duration': 5.0 };
-    for (i in slider_names) {
-        var e = document.getElementById(i);
-        var value = localStorage[i];
-        if (isNaN(value)) value = slider_names[i];
-        e.value = value;
-        e.onchange();
-    }
-
-
-    // View modes
-    setRadioValue(document.getElementsByName("mode_def"),
-        typeof localStorage['mode_default'] == 'undefined' ? 1 : parseInt(localStorage['mode_default'])
-    );
-    setRadioValue(document.getElementsByName("mode_def_image_smaller"),
-        typeof localStorage['mode_default_image_smaller'] == 'undefined' ? 1 : parseInt(localStorage['mode_default_image_smaller'])
-    );
-    setRadioValue(document.getElementsByName("mode_dbl"),
-        typeof localStorage['mode_doubleclick'] == 'undefined' ? 2 : parseInt(localStorage['mode_doubleclick'])
-    );
-    var mode = typeof localStorage['mode_enabled'] == 'undefined' ? { 1: true, 2: false, 3: false, 4: false, 5: true } : JSON.parse(localStorage['mode_enabled']);
-    for (i in mode) {
-        document.getElementById('mode' + i).checked = mode[i];
-    }
-    mode = typeof localStorage['mode_enabled_image_smaller'] == 'undefined' ? { 1: true, 2: true } : JSON.parse(localStorage['mode_enabled_image_smaller']);
-    for (i in mode) {
-        document.getElementById('mode_image_smaller' + i).checked = mode[i];
-    }
+        // View modes
+        setRadioValue(document.getElementsByName("mode_def"),
+            typeof items['mode_default'] == 'undefined' ? 1 : parseInt(items['mode_default'])
+        );
+        setRadioValue(document.getElementsByName("mode_def_image_smaller"),
+            typeof items['mode_default_image_smaller'] == 'undefined' ? 1 : parseInt(items['mode_default_image_smaller'])
+        );
+        setRadioValue(document.getElementsByName("mode_dbl"),
+            typeof items['mode_doubleclick'] == 'undefined' ? 2 : parseInt(items['mode_doubleclick'])
+        );
+        var mode = typeof items['mode_enabled'] == 'undefined' ? { 1: true, 2: false, 3: false, 4: false, 5: true } : JSON.parse(items['mode_enabled']);
+        for (i in mode) {
+            document.getElementById('mode' + i).checked = mode[i];
+        }
+        mode = typeof items['mode_enabled_image_smaller'] == 'undefined' ? { 1: true, 2: true } : JSON.parse(items['mode_enabled_image_smaller']);
+        for (i in mode) {
+            document.getElementById('mode_image_smaller' + i).checked = mode[i];
+        }
+    });
 }
 
 function setRadioValue(elements, value) {
@@ -102,33 +101,38 @@ function save() {
         if (document.getElementById('mode_image_smaller' + i).checked) mode_image_smaller[i] = true; else mode_image_smaller[i] = false;
     }
 
-
-    localStorage['mode_default'] = parseInt(getRadioValue(document.getElementsByName("mode_def")));
-    localStorage['mode_default_image_smaller'] = parseInt(getRadioValue(document.getElementsByName("mode_def_image_smaller")));
-    localStorage['mode_doubleclick'] = parseInt(getRadioValue(document.getElementsByName("mode_dbl")));
-    localStorage['mode_enabled'] = JSON.stringify(mode);
-    localStorage['mode_enabled_image_smaller'] = JSON.stringify(mode_image_smaller);
+    var dataToSave = {
+        'mode_default': parseInt(getRadioValue(document.getElementsByName("mode_def"))),
+        'mode_default_image_smaller': parseInt(getRadioValue(document.getElementsByName("mode_def_image_smaller"))),
+        'mode_doubleclick': parseInt(getRadioValue(document.getElementsByName("mode_dbl"))),
+        'mode_enabled': JSON.stringify(mode),
+        'mode_enabled_image_smaller': JSON.stringify(mode_image_smaller)
+    };
 
     // Inertial panning sliders
     var slider_names = ['inertial_recording_time', 'inertial_deceleration', 'inertial_speed', 'image_info_duration'];
     for (i = 0; i < slider_names.length; i++) {
-        localStorage[slider_names[i]] = document.getElementById(slider_names[i]).value;
-    }
-
-
-    if (c == 'default' || c == 'transparent' || color_pattern.test(c)) {
-        localStorage.setItem('background_color', c);
-        localStorage.setItem('shortcut_fit_to_width', v1);
-        document.getElementById('saved').style.display = "block";
-        setTimeout("document.getElementById('saved').style.display='none'", 2500);
+        dataToSave[slider_names[i]] = document.getElementById(slider_names[i]).value;
     }
 
     // Misc.
     var checkbox_names = ['checkerboard_background', 'inertial_panning', 'close_on_long_press', 'cursor_always_pointer', 'show_image_info'];
     for (i = 0; i < checkbox_names.length; i++) {
-        localStorage.setItem(checkbox_names[i], document.getElementById(checkbox_names[i]).checked.toString());
+        dataToSave[checkbox_names[i]] = document.getElementById(checkbox_names[i]).checked.toString();
     }
 
+    if (c == 'default' || c == 'transparent' || color_pattern.test(c)) {
+        dataToSave.background_color = c;
+        dataToSave.shortcut_fit_to_width = v1;
+
+        chrome.storage.local.set(dataToSave, function() {
+            var element = document.getElementById('saved');
+            element.style.display = "block";
+            setTimeout(function() {
+                element.style.display = 'none';
+            }, 2500);
+        });
+    }
 
     return false;
 }
@@ -157,16 +161,16 @@ function saveDefault(ask) {
             image_info_duration: "5.0",
         };
 
-        for (i in items) {
-            localStorage[i] = items[i];
-        }
-
-        if (ask) {
-            document.getElementById('reverted').style.display = "block";
-            setTimeout("document.getElementById('reverted').style.display='none'", 2500);
-        }
-
-        load_settings();
+        chrome.storage.local.set(items, function() {
+            if (ask) {
+                var element = document.getElementById('reverted');
+                element.style.display = "block";
+                setTimeout(function() {
+                    element.style.display = 'none';
+                }, 2500);
+            }
+            load_settings();
+        });
     }
 }
 
@@ -278,7 +282,7 @@ function drawFace() {
     var fill = 'rgba(' + Math.round((Math.sin(4 * faceSpaceTime + 1) / 2 + .5) * 255) + ',' + Math.round((Math.sin(5 * faceSpaceTime + 4) / 2 + .5) * 255) + ',' + Math.round((Math.sin(9 * faceSpaceTime + 1) / 2 + .5) * 255) + ', ' + ((Math.sin(7 * faceSpaceTime + 3) / 2 + .5)) + ')';
     c.fillStyle = '#000000';
     c.fill();
-    faceSpaceTime = faceSpaceTime + 0.2;
+    faceSpaceTime = faceSpaceTime + 0.1;
 }
 
 
@@ -325,8 +329,9 @@ function onContentLoaded() {
 
     if (window.location.hash == '#firsttime') {
         window.location.href = '#';
-        localStorage["preferences_set"] = true;
-        saveDefault(false);
+        chrome.storage.local.set({ "preferences_set": true }, function() {
+            saveDefault(false);
+        });
     } else {
         load_settings();
     }

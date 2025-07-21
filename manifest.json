@@ -1,13 +1,10 @@
 {
     "name": "Image Autosizer",
     "description": "Customize how images are displayed and controlled within your browser.",
-    "manifest_version": 2,
-    "version": "3.5",
+    "manifest_version": 3,
+    "version": "4.0",
     "background": {
-        "scripts": [
-            "background.js"
-        ],
-        "persistent": false
+        "service_worker": "background.js"
     },
     "icons": {
         "128": "img/icon_128.png",
@@ -26,19 +23,15 @@
             "run_at": "document_start"
         }
     ],
-    "web_accessible_resources": [
-        "contentstyle.css",
-        "img/help_16.png",
-        "img/help_22.png",
-        "img/icon.png",
-        "img/icon_18.png",
-        "img/preferences.png",
-        "img/quick_guide.png",
-        "options.js",
-        "options.css"
-    ],
     "permissions": [
+        "activeTab",
+        "scripting",
+        "storage"
+    ],
+    "host_permissions": [
         "<all_urls>"
     ],
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'unsafe-eval';"
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self';"
+    }
 }
