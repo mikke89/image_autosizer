@@ -1,4 +1,4 @@
-# Image Autosizer
+![Image Autosizer](image_autosizer.png)
 
 Image Autosizer is a browser extension for customizing how image files are displayed in the browser window.
 

@@ -9,6 +9,7 @@
     "icons": {
         "128": "img/icon_128.png",
         "64": "img/icon_64.png",
+        "48": "img/icon_48.png",
         "18": "img/icon_18.png"
     },
     "options_page": "options.html",
