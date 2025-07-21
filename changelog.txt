@@ -1,9 +1,11 @@
 Changelog
 
-v4.0 (WIP):
-- Migrated extension to Manifest V3
+v4.0 (2025-07-22):
+- Migrated extension to Manifest V3.
+- Fixed vertical centering in some situations, with a larger layout rewrite.
+- Fix close on long press not always canceling on mouse move or release.
 - Improved help popout in preferences.
-- Added license file (MIT)
+- Added license file (MIT).
 
 
 v3.4 (2017-02-03):
