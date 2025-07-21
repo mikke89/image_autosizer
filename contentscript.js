@@ -128,42 +128,68 @@ document.addEventListener('DOMContentLoaded', function () {
         /* ------------------------------------- */
 
         function main() {
-            var html = document.getElementsByTagName('html')[0];
             var body = document.getElementsByTagName('body')[0];
             var img = document.getElementsByTagName('img')[0];
             var divStatus = document.getElementsByTagName('div')[0];
-            var mode = prefs['mode_default'], pan = false, mouseX = 0, mouseY = 0, inertial_lastX, inertial_lastY, inertial_speedX, inertial_speedY, inertial_timer, inertial_last_times, inertial_pos = {
+            var mode = prefs['mode_default'];
+            var pan = false;
+            var inertial_lastX;
+            var inertial_lastY;
+            var inertial_speedX;
+            var inertial_speedY;
+            var inertial_timer;
+            var inertial_last_times;
+            var inertial_pos = {
                 X: 0,
                 Y: 0
-            }, startX, startY, scrollReady = true, closePageTimer = false, cancel_click = false;
+            };
+            var startX;
+            var startY;
+            var scrollReady = true;
+            var closePageTimer = false;
+            var cancel_click = false;
             var state = 'gt';
+
+            var ViewModes = {
+                FIT_TO_WINDOW: 1,
+                FILL_WINDOW: 2,
+                FIT_TO_WIDTH: 3,
+                FIT_TO_HEIGHT: 4,
+                ORIGINAL: 5
+            };
+
+            var SmallImageModes = {
+                ORIGINAL: 1,
+                MAXIMIZE: 2
+            };
+
             var modes = {
                 gt: {
-                    1: {
+                    [ViewModes.FIT_TO_WINDOW]: {
                         title: 'Fit to window',
                         body_class: 'contain',
                         cursor: 'zoom-in',
                         pan: false
                     },
-                    2: {
+                    [ViewModes.FILL_WINDOW]: {
                         title: 'Fill window',
                         body_class: 'fill auto',
                         cursor: 'zoom-in',
                         pan: true
                     },
-                    3: {
+                    [ViewModes.FIT_TO_WIDTH]: {
                         title: 'Fit to width',
                         body_class: 'fill width',
                         cursor: 'pointer',
                         pan: true
                     },
-                    4: {
+                    [ViewModes.FIT_TO_HEIGHT]: {
                         title: 'Fit to height',
                         body_class: 'fill height',
                         cursor: 'pointer',
                         pan: true
                     },
-                    5: {
+                    [ViewModes.ORIGINAL]: {
                         title: 'Original',
                         body_class: 'zoom',
                         cursor: 'zoom-out',
@@ -171,13 +197,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 },
                 st: {
-                    1: {
+                    [SmallImageModes.ORIGINAL]: {
                         title: 'Original',
                         body_class: '',
                         cursor: (prefs['all_image_smaller_modes_enabled'] ? 'zoom-in' : 'default'),
                         pan: false
                     },
-                    2: {
+                    [SmallImageModes.MAXIMIZE]: {
                         title: 'Maximize',
                         body_class: 'maximize',
                         cursor: (prefs['all_image_smaller_modes_enabled'] ? 'zoom-out' : 'default'),
@@ -245,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 body.style.cursor = cursor;
                 img.style.marginTop = '0';
 
-                if (state == 'gt' && mode == 1 && !aspect_ratio_window_gt_image()) {
+                if (state == 'gt' && mode == ViewModes.FIT_TO_WINDOW && !aspect_ratio_window_gt_image()) {
                     img.style.marginTop = Math.floor(body.clientHeight / 2 - window.innerWidth / image_aspect_ratio() / 2) + 'px';
                 }
                 change_status_text();
@@ -343,8 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
             body.addEventListener('mousedown', function (ev) {
                 if (modes[state][mode].pan && ev.which == 1) {
                     pan = true;
-                    mouseX = ev.pageX;
-                    mouseY = ev.pageY;
                     clearTimeout(inertial_timer);
                     startX = ev.screenX;
                     startY = ev.screenY;
@@ -371,8 +395,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         inertial_lastY.unshift(ev.screenY);
                     }
                     window.scrollTo(startX + startScrollX - ev.screenX, startY + startScrollY - ev.screenY);
-                    mouseX = ev.pageX;
-                    mouseY = ev.pageY;
                 } else if (pan) {
 
                 }
