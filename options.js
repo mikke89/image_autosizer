@@ -5,15 +5,19 @@ var help_constraints = [[0, 0], [22, 22]];
 function load_settings() {
     var bc = document.getElementsByName("background_color");
 
-    document.getElementById('custom_color').addEventListener("change", function () {
+    document.getElementById('custom_color').addEventListener("input", function () {
         bc[bc.length - 1].checked = true;
     }, false);
 
-    document.getElementById('transparency').addEventListener('mousemove', function (e) {
-        if (e.pageX < help_constraints[0][0] || e.pageY < help_constraints[0][1] ||
+    var el_help_float = document.getElementById('help_float');
+    var el_transparency = document.getElementById('transparency');
+    document.addEventListener('mousemove', function (e) {
+        if (el_transparency.classList.contains('visible')) {
+            if (e.pageX < help_constraints[0][0] || e.pageY < help_constraints[0][1] ||
             e.pageX > help_constraints[1][0] || e.pageY > help_constraints[1][1]) {
-            document.getElementById('help_float').style.display = 'none';
-            this.style.display = 'none';
+                el_help_float.classList.remove('visible');
+                el_transparency.classList.remove('visible');
+            }
         }
     }, false);
 
@@ -36,8 +40,8 @@ function load_settings() {
         for (i = 0; i < checkbox_names.length; i++) {
             document.getElementById(checkbox_names[i]).checked = items[checkbox_names[i]] == 'true';
         }
-        document.getElementById('inertial_panning').onchange();
-        document.getElementById('show_image_info').onchange();
+        document.getElementById('inertial_panning').oninput();
+        document.getElementById('show_image_info').oninput();
 
         // Inertial panning sliders
         var slider_names = { 'inertial_recording_time': 50, 'inertial_deceleration': 1.0, 'inertial_speed': 1.0, 'image_info_duration': 5.0 };
@@ -46,7 +50,7 @@ function load_settings() {
             var value = items[i];
             if (isNaN(value)) value = slider_names[i];
             e.value = value;
-            e.onchange();
+            e.oninput();
         }
 
         // View modes
@@ -197,11 +201,12 @@ function showHelp() {
 
     help_float.innerHTML = button.innerHTML;
     help_float.style.display = 'block';
+    help_float.classList.add('visible');
 
 
     if (show_float_beneath) help_constraints = [[button_pos[0] - 6, button_pos[1] - 6], [button_pos[0] + button.offsetWidth + 6, button_pos[1] + button.offsetHeight + 12]];
     else help_constraints = [[button_pos[0] - 6, button_pos[1] - 12], [button_pos[0] + button.offsetWidth + 6, button_pos[1] + button.offsetHeight + 6]];
-    transparency.style.display = 'block';
+    transparency.classList.add('visible');
 
     help_float.style.left = (button_pos[0] - help_float.offsetWidth + 30) + 'px';
 
@@ -291,16 +296,16 @@ function onContentLoaded() {
     document.getElementById('btn_save').addEventListener('click', save, false);
     document.getElementById('btn_revert').addEventListener('click', saveDefault, false);
 
-    document.getElementById('inertial_recording_time').onchange = function () {
+    document.getElementById('inertial_recording_time').oninput = function () {
         document.querySelector('label[for="inertial_recording_time"]').innerText = 'Recording time (' + this.value + ' ms)';
     };
-    document.getElementById('inertial_deceleration').onchange = function () {
+    document.getElementById('inertial_deceleration').oninput = function () {
         document.querySelector('label[for="inertial_deceleration"]').innerText = 'Deceleration (' + Number(this.value).toFixed(1) + ')';
     };
-    document.getElementById('inertial_speed').onchange = function () {
+    document.getElementById('inertial_speed').oninput = function () {
         document.querySelector('label[for="inertial_speed"]').innerText = 'Speed (' + Number(this.value).toFixed(1) + ')';
     };
-    document.getElementById('inertial_panning').onchange = function () {
+    document.getElementById('inertial_panning').oninput = function () {
         if (this.checked) {
             document.getElementById('inertial_speed').disabled = false;
             document.getElementById('inertial_deceleration').disabled = false;
@@ -311,11 +316,11 @@ function onContentLoaded() {
             document.getElementById('inertial_recording_time').disabled = true;
         }
     };
-    document.getElementById('image_info_duration').onchange = function () {
+    document.getElementById('image_info_duration').oninput = function () {
         var v = Number(this.value);
         document.querySelector('label[for="image_info_duration"]').innerHTML = 'Duration (' + (v > 15.0 ? 'Always' : v.toFixed(1) + ' s') + ')';
     };
-    document.getElementById('show_image_info').onchange = function () {
+    document.getElementById('show_image_info').oninput = function () {
         document.getElementById('image_info_duration').disabled = !this.checked;
     };
 
